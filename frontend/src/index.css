@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: 176 80% 40%; /* #14B8A6 */
+    --secondary: 190 94% 37%; /* #06B6D4 */
+    --accent: 238 84% 67%; /* #6366F1 */
+    --pink-accent: 330 81% 60%; /* #EC4899 */
+    --yellow-accent: 48 96% 53%; /* #FACC15 */
+    --success: 142 71% 45%; /* #22C55E */
+    --background: 210 40% 98%; /* #F8FAFC */
+    --surface: 0 0% 100%; /* #FFFFFF */
+    --text: 222 47% 11%; /* #0F172A */
+    
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-[hsl(var(--background))] text-[hsl(var(--text))] font-inter antialiased overflow-x-hidden;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-jakarta font-extrabold tracking-tight;
+  }
+}
+
+@layer utilities {
+  .bg-grid-pattern {
+    background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+      linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  
+  .glassmorphism {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+  }
+  
+  .magnetic-button {
+    @apply relative overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg active:translate-y-0 active:shadow-md;
+  }
+}
