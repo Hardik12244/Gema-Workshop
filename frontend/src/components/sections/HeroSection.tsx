@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Star, Users, Award, PlayCircle, CheckCircle2, X, ChevronRight, Rocket, ShieldCheck, GraduationCap, Cpu } from 'lucide-react';
+import { ArrowRight, Star, Users, Award, PlayCircle, X, ChevronRight, Rocket, ShieldCheck, GraduationCap, Cpu } from 'lucide-react';
 
 const HeroSection = () => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);

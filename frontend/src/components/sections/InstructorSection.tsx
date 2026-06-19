@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Globe, Link2, Mail, Medal, Code2, Rocket, Briefcase, GraduationCap } from 'lucide-react';
+import { Globe, Link2, Mail, Medal, Rocket, Briefcase, GraduationCap } from 'lucide-react';
 
 const InstructorSection = () => {
   return (

@@ -9,7 +9,7 @@ import { CheckCircle2, Loader2 } from 'lucide-react';
 const formSchema = z.object({
   parentName: z.string().min(2, 'Parent name is required'),
   childName: z.string().min(2, 'Child name is required'),
-  childAge: z.coerce.number().min(8, 'Minimum age is 8').max(16, 'Maximum age is 16'),
+  childAge: z.number().min(8, 'Minimum age is 8').max(16, 'Maximum age is 16'),
   email: z.string().email('Invalid email address'),
   phone: z.string().min(10, 'Valid phone number is required'),
   workshopId: z.string().min(1, 'Please select a workshop')
@@ -29,7 +29,7 @@ const RegistrationForm = () => {
     }
   });
 
-  const { errors, isValid } = formState;
+  const { errors } = formState;
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
