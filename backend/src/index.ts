@@ -13,7 +13,15 @@ const app = express();
 const port = process.env.PORT || 5001;   
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://gema-workshop-three.vercel.app/"
+    ],
+    credentials: true
+  })
+);
 app.use(express.json());
 
 // Routes
