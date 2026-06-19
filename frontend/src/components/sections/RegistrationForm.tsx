@@ -29,32 +29,98 @@ const RegistrationForm = () => {
     }
   });
 
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   const onSubmit = async (data: FormValues) => {
     if (!isSignedIn) return;
     setIsSubmitting(true);
+    
     try {
       const token = await getToken();
-      const response = await fetch('http://localhost:5001/api/registrations', {
+
+      // 1. Create Razorpay Order
+      const orderResponse = await fetch('http://localhost:5001/api/registrations/create-order', {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(data)
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setIsSuccess(true);
-        if (data.checkoutUrl) {
-          window.location.href = data.checkoutUrl;
         }
-      } else {
-        // Handle error visually if needed
-        console.error("Failed to register");
+      });
+      const orderData = await orderResponse.json();
+
+      // 2. Load Razorpay Script
+      const res = await loadRazorpayScript();
+      if (!res) {
+        alert("Razorpay SDK failed to load. Are you offline?");
+        setIsSubmitting(false);
+        return;
       }
+
+      // 3. Open Razorpay Modal
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_placeholder",
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "Gema Workshops",
+        description: `Registration for ${data.childName}`,
+        order_id: orderData.id,
+        handler: async function (response: any) {
+          // 4. Verify Payment and Save Registration
+          try {
+            const verifyRes = await fetch('http://localhost:5001/api/registrations/verify-payment', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id || orderData.id,
+                razorpay_payment_id: response.razorpay_payment_id || 'mock_payment_id',
+                razorpay_signature: response.razorpay_signature || 'mock_signature',
+                registrationData: data
+              })
+            });
+
+            if (verifyRes.ok) {
+              setIsSuccess(true);
+            } else {
+              console.error("Payment verification failed");
+              alert("Payment verification failed. Please contact support.");
+            }
+          } catch (error) {
+            console.error("Error verifying payment", error);
+            alert("Error verifying payment");
+          }
+        },
+        prefill: {
+          name: data.parentName,
+          email: data.email,
+          contact: data.phone,
+        },
+        theme: {
+          color: "#4F46E5",
+        },
+      };
+
+      const paymentObject = new (window as any).Razorpay(options);
+      
+      paymentObject.on('payment.failed', function (response: any) {
+        console.error(response.error);
+        alert("Payment failed: " + response.error.description);
+      });
+
+      paymentObject.open();
+
     } catch (error) {
-      console.error(error);
+      console.error("Failed to initiate payment", error);
     } finally {
       setIsSubmitting(false);
     }

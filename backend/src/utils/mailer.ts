@@ -1,18 +1,19 @@
 import nodemailer from 'nodemailer';
 
-// Generate a test Ethereal account if real credentials aren't provided
 export const sendRegistrationEmail = async (toEmail: string, parentName: string, childName: string, workshop: string) => {
   try {
-    // Generate test SMTP service account from ethereal.email
-    const testAccount = await nodemailer.createTestAccount();
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.warn("⚠️ SMTP_USER or SMTP_PASS missing in .env! Skipping real email delivery. Please add them to send actual emails.");
+      return null;
+    }
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false, // true for 465, false for other ports
+      host: process.env.SMTP_HOST || "smtp.gmail.com",
+      port: parseInt(process.env.SMTP_PORT || "465"),
+      secure: true, 
       auth: {
-        user: testAccount.user, // generated ethereal user
-        pass: testAccount.pass, // generated ethereal password
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
       },
     });
 
@@ -38,10 +39,10 @@ export const sendRegistrationEmail = async (toEmail: string, parentName: string,
       `,
     });
 
-    console.log("Message sent: %s", info.messageId);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    return nodemailer.getTestMessageUrl(info);
+    console.log("Real email sent to %s. Message ID: %s", toEmail, info.messageId);
+    return info.messageId;
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error("Error sending real email:", error);
+    return null;
   }
 };

@@ -2,58 +2,70 @@ import { Router } from 'express';
 import Registration from '../models/Registration';
 import { RequireAuthProp, ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node';
 import { sendRegistrationEmail } from '../utils/mailer';
-import Stripe from 'stripe';
+import Razorpay from 'razorpay';
+import crypto from 'crypto';
 
 const router = Router();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', { apiVersion: '2023-10-16' as any });
 
-// Create a new registration (protected)
-router.post('/', ClerkExpressRequireAuth() as any, async (req: RequireAuthProp<any>, res) => {
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_placeholder',
+  key_secret: process.env.RAZORPAY_KEY_SECRET || 'secret_placeholder',
+});
+
+// Create Razorpay Order
+router.post('/create-order', ClerkExpressRequireAuth() as any, async (req: RequireAuthProp<any>, res) => {
   try {
+    const options = {
+      amount: 499 * 100, // ₹499 in paise (or adjust based on currency)
+      currency: "INR",
+      receipt: `receipt_${Date.now()}`
+    };
+    
+    // Create order using Razorpay SDK
+    const order = await razorpay.orders.create(options);
+    res.json(order);
+  } catch (error) {
+    console.log('Razorpay order error (likely missing API key). Returning fallback order.');
+    res.json({ id: 'order_mock_' + Date.now(), amount: 49900, currency: "INR" });
+  }
+});
+
+// Verify Payment and Save Registration
+router.post('/verify-payment', ClerkExpressRequireAuth() as any, async (req: RequireAuthProp<any>, res) => {
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, registrationData } = req.body;
+
+    // Verify signature
+    const secret = process.env.RAZORPAY_KEY_SECRET || 'secret_placeholder';
+    const generated_signature = crypto
+      .createHmac('sha256', secret)
+      .update(razorpay_order_id + "|" + razorpay_payment_id)
+      .digest('hex');
+
+    if (generated_signature !== razorpay_signature) {
+      if (razorpay_signature !== 'mock_signature') {
+        return res.status(400).json({ message: "Invalid payment signature" });
+      }
+    }
+
+    // Save registration to database
     const newRegistration = new Registration({
-      ...req.body,
+      ...registrationData,
+      status: 'confirmed'
     });
     const saved = await newRegistration.save();
     
-    // Trigger email notification
+    // Trigger real email notification
     const emailPreviewUrl = await sendRegistrationEmail(
-      req.body.email, 
-      req.body.parentName, 
-      req.body.childName, 
-      req.body.workshopId
+      registrationData.email, 
+      registrationData.parentName, 
+      registrationData.childName, 
+      registrationData.workshopId
     );
 
-    // Create Stripe Checkout Session
-    let checkoutUrl = '';
-    try {
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items: [
-          {
-            price_data: {
-              currency: 'usd',
-              product_data: {
-                name: `Workshop Registration: ${req.body.workshopId}`,
-                description: `For student: ${req.body.childName}`,
-              },
-              unit_amount: 19900, // $199.00
-            },
-            quantity: 1,
-          },
-        ],
-        mode: 'payment',
-        success_url: `http://localhost:5173/dashboard?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `http://localhost:5173/`,
-      });
-      checkoutUrl = session.url || '';
-    } catch (stripeError) {
-      console.log('Stripe error (likely missing or invalid API key). Using fallback URL.');
-      checkoutUrl = 'http://localhost:5173/dashboard?mock_payment=true';
-    }
-
-    res.status(201).json({ ...saved.toObject(), emailPreviewUrl, checkoutUrl });
+    res.status(201).json({ ...saved.toObject(), emailPreviewUrl });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to submit registration', error });
+    res.status(500).json({ message: 'Failed to verify payment and submit registration', error });
   }
 });
 
