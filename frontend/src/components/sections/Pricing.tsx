@@ -24,7 +24,7 @@ const Pricing = () => {
             <p className="text-text/60 mb-8">4-week intensive program</p>
             
             <div className="flex items-baseline gap-2 mb-8">
-              <span className="text-5xl font-jakarta font-extrabold">$499</span>
+              <span className="text-5xl font-jakarta font-extrabold">₹2,999</span>
               <span className="text-text/60 font-medium">/ student</span>
             </div>
 

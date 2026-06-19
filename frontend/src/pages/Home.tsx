@@ -2,6 +2,7 @@ import BackgroundSystem from '../components/layout/BackgroundSystem';
 import HeroSection from '../components/sections/HeroSection';
 import TrustedByParents from '../components/sections/TrustedByParents';
 import WorkshopHighlights from '../components/sections/WorkshopHighlights';
+import StudentTransformation from '../components/sections/StudentTransformation';
 import LearningJourney from '../components/sections/LearningJourney';
 import Curriculum from '../components/sections/Curriculum';
 import ProjectShowcase from '../components/sections/ProjectShowcase';
@@ -20,6 +21,7 @@ const Home = () => {
       <HeroSection />
       <TrustedByParents />
       <WorkshopHighlights />
+      <StudentTransformation />
       <LearningJourney />
       <Curriculum />
       <ProjectShowcase />

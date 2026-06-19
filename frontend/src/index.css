@@ -6,15 +6,18 @@
 
 @layer base {
   :root {
-    --primary: 176 80% 40%; /* #14B8A6 */
+    --primary: 238 84% 67%; /* #6366F1 */
+    --primary-dark: 238 82% 59%; /* #4F46E5 */
     --secondary: 190 94% 37%; /* #06B6D4 */
+    --secondary-dark: 190 91% 37%; /* #0891B2 */
     --accent: 238 84% 67%; /* #6366F1 */
     --pink-accent: 330 81% 60%; /* #EC4899 */
     --yellow-accent: 48 96% 53%; /* #FACC15 */
     --success: 142 71% 45%; /* #22C55E */
-    --background: 210 40% 98%; /* #F8FAFC */
+    --background: 40 33% 97%; /* #FAF8F3 */
     --surface: 0 0% 100%; /* #FFFFFF */
     --text: 222 47% 11%; /* #0F172A */
+    --text-secondary: 215 19% 35%; /* #475569 */
     
     --radius: 0.75rem;
   }
@@ -22,7 +25,7 @@
 
 @layer base {
   body {
-    @apply bg-[hsl(var(--background))] text-[hsl(var(--text))] font-inter antialiased overflow-x-hidden;
+    @apply bg-[hsl(var(--background))] text-[hsl(var(--text))] font-jakarta font-medium antialiased overflow-x-hidden;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-jakarta font-extrabold tracking-tight;

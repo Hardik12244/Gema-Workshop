@@ -1,80 +1,128 @@
 import { motion } from 'framer-motion';
-import { Globe, Mail, Link2 } from 'lucide-react';
+import { Globe, Link2, Mail, Medal, Code2, Rocket, Briefcase, GraduationCap } from 'lucide-react';
 
 const InstructorSection = () => {
-  const instructors = [
-    {
-      name: "Dr. Sarah Chen",
-      role: "Lead Robotics Instructor",
-      bio: "Former NASA JPL engineer. Passionate about bringing aerospace robotics concepts to kids.",
-      image: "https://i.pravatar.cc/300?img=47"
-    },
-    {
-      name: "Mark Johnson",
-      role: "AI Curriculum Director",
-      bio: "Stanford CS grad. Developed AI literacy programs for over 50 schools nationwide.",
-      image: "https://i.pravatar.cc/300?img=11"
-    },
-    {
-      name: "Elena Rodriguez",
-      role: "Hardware Specialist",
-      bio: "Hardware hacker and maker. Loves teaching kids how to solder and build circuits.",
-      image: "https://i.pravatar.cc/300?img=5"
-    }
-  ];
-
   return (
-    <section className="py-24 bg-white" id="instructors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 max-w-3xl mx-auto">
+    <section className="py-32 bg-white relative overflow-hidden" id="instructors">
+      {/* Background accents */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-1/3 h-[500px] bg-secondary/10 blur-[150px] rounded-full" />
+      <div className="absolute bottom-0 right-0 w-1/3 h-[500px] bg-primary/10 blur-[150px] rounded-full" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-20">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl mb-6"
+            className="text-5xl md:text-6xl font-jakarta font-extrabold text-text mb-6 tracking-tight"
           >
-            Learn from the Best
+            Mentored by <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Industry Leaders.</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-xl text-text/70"
+            className="text-xl text-text-secondary font-medium"
           >
-            Our instructors aren't just teachers; they're industry professionals who are passionate about passing the torch.
+            Not just teachers. We are active builders, engineers, and founders who want to pass the torch.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {instructors.map((instructor, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group text-center"
-            >
-              <div className="relative w-48 h-48 mx-auto mb-6">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-accent blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Founder Card - Editorial Layout */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-[hsl(var(--background))] rounded-[3rem] p-8 md:p-12 shadow-2xl border border-gray-100 relative overflow-hidden group"
+        >
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-pink-accent/5 to-transparent pointer-events-none" />
+          
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
+            
+            {/* Left: Premium Photo & Socials */}
+            <div className="w-full lg:w-1/3 flex flex-col items-center">
+              <div className="relative w-64 h-64 md:w-80 md:h-80 mb-8">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary via-accent to-pink-accent blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
                 <img 
-                  src={instructor.image} 
-                  alt={instructor.name} 
-                  className="relative w-full h-full object-cover rounded-full border-4 border-white shadow-xl"
+                  src="https://i.pravatar.cc/500?img=68" 
+                  alt="Founder & Lead Instructor" 
+                  className="relative w-full h-full object-cover rounded-full border-8 border-white shadow-2xl z-10 grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
                 />
+                
+                {/* Floating status */}
+                <div className="absolute -bottom-4 right-4 bg-white px-4 py-2 rounded-full shadow-lg border border-gray-100 z-20 flex items-center gap-2">
+                  <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-success"></span>
+                  </span>
+                  <span className="text-sm font-bold text-text">Accepting Students</span>
+                </div>
               </div>
-              <h3 className="text-2xl font-jakarta font-bold mb-1">{instructor.name}</h3>
-              <p className="text-primary font-medium mb-4">{instructor.role}</p>
-              <p className="text-text/70 mb-6">{instructor.bio}</p>
-              <div className="flex justify-center space-x-4">
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-text/40 hover:text-primary transition-colors"><Globe className="w-5 h-5" /></a>
-                <a href="mailto:contact@robominds.edu" className="text-text/40 hover:text-text transition-colors"><Mail className="w-5 h-5" /></a>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-text/40 hover:text-secondary transition-colors"><Link2 className="w-5 h-5" /></a>
+
+              <div className="flex justify-center gap-4 w-full">
+                <a href="#" className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 hover:shadow-md hover:text-primary transition-all hover:-translate-y-1"><Link2 className="w-5 h-5" /></a>
+                <a href="#" className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 hover:shadow-md hover:text-text transition-all hover:-translate-y-1"><Globe className="w-5 h-5" /></a>
+                <a href="#" className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 hover:shadow-md hover:text-secondary transition-all hover:-translate-y-1"><Mail className="w-5 h-5" /></a>
               </div>
-            </motion.div>
-          ))}
-        </div>
+            </div>
+
+            {/* Right: Rich Bio & Stats */}
+            <div className="w-full lg:w-2/3">
+              <div className="mb-2">
+                <span className="text-primary font-bold tracking-widest uppercase text-sm">Lead Architect & Founder</span>
+              </div>
+              <h3 className="text-4xl md:text-5xl font-jakarta font-extrabold text-text mb-6">Dr. Alexander Chen</h3>
+              
+              <p className="text-xl text-text-secondary leading-relaxed mb-10">
+                Former NASA JPL Robotics Engineer turned EdTech founder. Alexander has spent the last 10 years building autonomous rovers and is now dedicated to distilling complex engineering into playful, powerful curriculum for the next generation.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex gap-4 items-start">
+                  <div className="bg-primary/10 p-3 rounded-2xl text-primary mt-1">
+                    <Briefcase className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-jakarta font-bold text-lg mb-1">NASA JPL</h4>
+                    <p className="text-text-secondary text-sm font-medium">8 Years Lead Eng.</p>
+                  </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex gap-4 items-start">
+                  <div className="bg-secondary/10 p-3 rounded-2xl text-secondary mt-1">
+                    <GraduationCap className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-jakarta font-bold text-lg mb-1">Stanford CS</h4>
+                    <p className="text-text-secondary text-sm font-medium">Ph.D in Machine Learning</p>
+                  </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex gap-4 items-start">
+                  <div className="bg-pink-accent/10 p-3 rounded-2xl text-pink-accent mt-1">
+                    <Rocket className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-jakarta font-bold text-lg mb-1">Y-Combinator</h4>
+                    <p className="text-text-secondary text-sm font-medium">S24 EdTech Alum</p>
+                  </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex gap-4 items-start">
+                  <div className="bg-yellow-accent/20 p-3 rounded-2xl text-yellow-accent mt-1">
+                    <Medal className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-jakarta font-bold text-lg mb-1">5,000+ Students</h4>
+                    <p className="text-text-secondary text-sm font-medium">Mentored globally</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

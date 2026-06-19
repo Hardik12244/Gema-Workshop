@@ -14,7 +14,7 @@ const BackgroundSystem = () => {
           opacity: [0.1, 0.15, 0.1],
         }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-primary/20 blur-[120px]"
+        className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-primary/30 blur-[120px]"
       />
       <motion.div
         animate={{
@@ -22,7 +22,7 @@ const BackgroundSystem = () => {
           opacity: [0.08, 0.12, 0.08],
         }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute bottom-[-20%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-accent/20 blur-[150px]"
+        className="absolute bottom-[-20%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-secondary/20 blur-[150px]"
       />
       <motion.div
         animate={{
@@ -30,7 +30,7 @@ const BackgroundSystem = () => {
           opacity: [0.05, 0.1, 0.05],
         }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 5 }}
-        className="absolute top-[40%] left-[60%] w-[30vw] h-[30vw] rounded-full bg-pink-accent/20 blur-[100px]"
+        className="absolute top-[40%] left-[60%] w-[30vw] h-[30vw] rounded-full bg-pink-accent/20 blur-[120px]"
       />
 
       {/* Floating Elements / Tech Doodles (Opacity 3-8%) */}
@@ -68,12 +68,18 @@ const BackgroundSystem = () => {
         </motion.div>
       </div>
       
-      {/* Blueprint/Circuit paths using SVG */}
+      {/* Blueprint/Circuit paths using SVG and Mathematical formulas */}
       <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
         <path d="M 0 200 C 300 200, 400 400, 800 300 S 1200 600, 1600 500" fill="transparent" stroke="currentColor" strokeWidth="2" strokeDasharray="10 10" />
         <path d="M 1600 800 C 1200 800, 1000 600, 600 700 S 200 400, 0 500" fill="transparent" stroke="currentColor" strokeWidth="2" strokeDasharray="5 15" />
         <circle cx="800" cy="300" r="8" fill="currentColor" />
         <circle cx="600" cy="700" r="8" fill="currentColor" />
+        
+        {/* Math Formulas & Tech Notes */}
+        <text x="10%" y="30%" fill="currentColor" fontSize="24" fontFamily="monospace" transform="rotate(-15, 100, 300)">E = mc²</text>
+        <text x="75%" y="20%" fill="currentColor" fontSize="20" fontFamily="monospace" transform="rotate(10, 800, 200)">f(x) = ∫e^x dx</text>
+        <text x="80%" y="80%" fill="currentColor" fontSize="18" fontFamily="monospace" transform="rotate(-5, 1200, 800)">∇ × E = -∂B/∂t</text>
+        <text x="20%" y="75%" fill="currentColor" fontSize="16" fontFamily="monospace" transform="rotate(20, 300, 700)">// Init Servo Motor</text>
       </svg>
     </div>
   );

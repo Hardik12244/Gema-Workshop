@@ -1,98 +1,134 @@
 import { motion } from 'framer-motion';
-import { Settings2, Zap, ShieldAlert, Cpu } from 'lucide-react';
+import { Clock, BarChart, Code2, PlayCircle } from 'lucide-react';
 
 const ProjectShowcase = () => {
   const projects = [
     {
-      title: "Line Following Robot",
-      icon: <Settings2 className="w-6 h-6 text-primary" />,
-      image: "/projects_robotics_kits.png", // Re-using the generated image for all to showcase the kits
-      description: "Build a robot that uses IR sensors to follow a complex path autonomously.",
-      skills: ["IR Sensors", "Motor Control", "PID Logic"]
+      title: "AI Voice Assistant Bot",
+      subtitle: "Hardware meets Large Language Models.",
+      image: "/projects_robotics_kits.png",
+      difficulty: "Advanced",
+      buildTime: "12 Hours",
+      skills: ["Python", "OpenAI API", "Audio Processing", "IoT"],
+      span: "md:col-span-2",
+      theme: "dark"
     },
     {
-      title: "Obstacle Avoidance",
-      icon: <ShieldAlert className="w-6 h-6 text-secondary" />,
-      image: "/projects_robotics_kits.png",
-      description: "Program an ultrasonic sensor-equipped robot to navigate mazes without crashing.",
-      skills: ["Ultrasonics", "Spatial Logic", "If-Else Statements"]
+      title: "Gesture Control Robot",
+      subtitle: "Control robots with hand movements.",
+      image: "/curriculum_coding.png",
+      difficulty: "Intermediate",
+      buildTime: "8 Hours",
+      skills: ["Computer Vision", "Motor Logic"],
+      span: "md:col-span-1",
+      theme: "light"
     },
     {
-      title: "Voice Controlled Bot",
-      icon: <Zap className="w-6 h-6 text-accent" />,
-      image: "/projects_robotics_kits.png",
-      description: "Integrate basic AI voice recognition to command the robot verbally.",
-      skills: ["Voice APIs", "Bluetooth", "Event Listeners"]
+      title: "Weather Intelligence",
+      subtitle: "Smart dashboard with live environmental data.",
+      image: "/curriculum_robotics.png",
+      difficulty: "Beginner",
+      buildTime: "5 Hours",
+      skills: ["API Fetching", "React UI", "Sensors"],
+      span: "md:col-span-1",
+      theme: "light"
     },
     {
-      title: "Smart Home Automation",
-      icon: <Cpu className="w-6 h-6 text-pink-accent" />,
-      image: "/projects_robotics_kits.png",
-      description: "Create a miniature smart room that responds to environmental changes.",
-      skills: ["IoT", "Temp Sensors", "Relays"]
+      title: "Obstacle Avoidance Rover",
+      subtitle: "Autonomous maze navigation.",
+      image: "/hero_new.png",
+      difficulty: "Intermediate",
+      buildTime: "10 Hours",
+      skills: ["Ultrasonic Sensors", "Pathfinding", "C++"],
+      span: "md:col-span-2",
+      theme: "dark"
     }
   ];
 
   return (
-    <section className="py-24 relative" id="projects">
+    <section className="py-32 relative bg-[hsl(var(--background))]" id="projects">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 max-w-3xl mx-auto">
+        
+        <div className="text-center mb-20 max-w-3xl mx-auto">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl mb-6"
+            className="text-5xl md:text-6xl font-jakarta font-extrabold text-text mb-6 tracking-tight"
           >
-            Build Real, Tangible Projects
+            Built by <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Students.</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-xl text-text/70"
+            className="text-xl text-text-secondary font-medium"
           >
-            Every concept learned is immediately applied to building physical robots that students can touch, program, and take home.
+            No toy blocks. No pseudo-code. Just real engineering, real hardware, and production-ready APIs.
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 auto-rows-[450px]">
           {projects.map((project, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl transition-all group"
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className={`relative rounded-[2.5rem] overflow-hidden group cursor-pointer shadow-xl ${project.span} ${project.theme === 'dark' ? 'bg-gray-900' : 'bg-white border border-gray-200'}`}
             >
-              <div className="h-48 overflow-hidden relative">
+              {/* Image Background */}
+              <div className="absolute inset-0 w-full h-full">
                 <img 
                   src={project.image} 
                   alt={project.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 ${project.theme === 'light' ? 'opacity-80' : 'opacity-60'}`}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-4 left-4 bg-white/20 backdrop-blur-md p-2 rounded-xl">
-                  {project.icon}
-                </div>
+                <div className={`absolute inset-0 bg-gradient-to-t ${project.theme === 'dark' ? 'from-gray-900 via-gray-900/60 to-transparent' : 'from-white via-white/80 to-transparent'}`} />
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-jakarta font-bold mb-3 group-hover:text-primary transition-colors">{project.title}</h3>
-                <p className="text-text/70 mb-6 text-sm">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {project.skills.map((skill, i) => (
-                    <span key={i} className="text-xs font-semibold bg-gray-100 text-text/60 px-2.5 py-1 rounded-md">
-                      {skill}
-                    </span>
-                  ))}
+
+              {/* Content */}
+              <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
+                <div className={`transform transition-transform duration-500 group-hover:-translate-y-4`}>
+                  <h3 className={`text-3xl md:text-4xl font-jakarta font-extrabold tracking-tight mb-2 ${project.theme === 'dark' ? 'text-white' : 'text-text'}`}>
+                    {project.title}
+                  </h3>
+                  <p className={`text-lg font-medium mb-6 ${project.theme === 'dark' ? 'text-gray-300' : 'text-text-secondary'}`}>
+                    {project.subtitle}
+                  </p>
+
+                  {/* Meta Information */}
+                  <div className={`flex flex-wrap gap-4 mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100`}>
+                    <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold backdrop-blur-md ${project.theme === 'dark' ? 'bg-white/10 text-white' : 'bg-black/5 text-text'}`}>
+                      <BarChart className="w-4 h-4" /> {project.difficulty}
+                    </div>
+                    <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold backdrop-blur-md ${project.theme === 'dark' ? 'bg-white/10 text-white' : 'bg-black/5 text-text'}`}>
+                      <Clock className="w-4 h-4" /> {project.buildTime}
+                    </div>
+                  </div>
+
+                  {/* Skills tags */}
+                  <div className="flex flex-wrap gap-2">
+                    {project.skills.map((skill, i) => (
+                      <span key={i} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-semibold backdrop-blur-md transition-colors ${project.theme === 'dark' ? 'bg-black/40 text-gray-200 border border-white/10' : 'bg-white/60 text-text-secondary border border-gray-200'}`}>
+                        <Code2 className="w-3.5 h-3.5" />
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Hover Play Button */}
+                <div className={`absolute top-8 right-8 opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 ${project.theme === 'dark' ? 'text-white' : 'text-text'}`}>
+                  <PlayCircle className="w-12 h-12 stroke-1" />
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
+
       </div>
     </section>
   );
