@@ -2,6 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ClerkProvider } from '@clerk/clerk-react';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
+import About from './pages/About';
+import Blog from './pages/Blog';
+import Contact from './pages/Contact';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 
@@ -17,6 +20,9 @@ function App() {
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </main>

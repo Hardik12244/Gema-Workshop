@@ -8,10 +8,13 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { name: 'Curriculum', path: '#curriculum' },
-    { name: 'Projects', path: '#projects' },
-    { name: 'Pricing', path: '#pricing' },
-    { name: 'FAQ', path: '#faq' },
+    { name: 'About', path: '/about' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'Curriculum', path: '/#curriculum' },
+    { name: 'Projects', path: '/#projects' },
+    { name: 'Pricing', path: '/#pricing' },
+    { name: 'FAQ', path: '/#faq' },
+    { name: 'Get In Touch', path: '/contact' },
   ];
 
   return (
