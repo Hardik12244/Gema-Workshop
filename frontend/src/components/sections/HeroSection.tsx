@@ -1,7 +1,10 @@
-import { motion } from 'framer-motion';
-import { ArrowRight, Star, Users, Award, PlayCircle, CheckCircle2 } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Star, Users, Award, PlayCircle, CheckCircle2, X } from 'lucide-react';
 
 const HeroSection = () => {
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -60,17 +63,17 @@ const HeroSection = () => {
             
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 mb-10">
               <a 
-                href="#pricing"
+                href="/register"
                 className="magnetic-button bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-full font-bold text-lg flex items-center justify-center gap-2 shadow-lg shadow-primary/30"
               >
                 Claim Your Spot <ArrowRight className="w-5 h-5" />
               </a>
-              <a 
-                href="#projects"
+              <button 
+                onClick={(e) => { e.preventDefault(); setIsVideoOpen(true); }}
                 className="magnetic-button bg-white hover:bg-gray-50 text-text px-8 py-4 rounded-full font-bold text-lg flex items-center justify-center gap-2 shadow-lg shadow-gray-200/50"
               >
                 <PlayCircle className="w-5 h-5 text-primary" /> Watch Video
-              </a>
+              </button>
             </motion.div>
             
             <motion.div variants={itemVariants} className="flex items-center gap-6 text-sm font-medium text-text/60">
@@ -94,8 +97,8 @@ const HeroSection = () => {
             <div className="relative w-full aspect-square md:aspect-[4/3] lg:aspect-auto lg:h-full max-h-[600px] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white">
               <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent z-10 mix-blend-overlay"></div>
               <img 
-                src="/hero_child_robot.png" 
-                alt="Child happily building a robot" 
+                src="/hero_new.png" 
+                alt="Enthusiastic kids building a glowing robot" 
                 className="w-full h-full object-cover object-center"
               />
             </div>
@@ -154,6 +157,43 @@ const HeroSection = () => {
 
         </div>
       </div>
+
+      <AnimatePresence>
+        {isVideoOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsVideoOpen(false)}
+              className="absolute inset-0 bg-text/80 backdrop-blur-sm cursor-pointer"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-4xl bg-white rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-video z-10"
+            >
+              <button 
+                onClick={() => setIsVideoOpen(false)}
+                className="absolute top-4 right-4 bg-white/50 hover:bg-white p-2 rounded-full backdrop-blur-md z-20 transition-colors"
+              >
+                <X className="w-6 h-6 text-text" />
+              </button>
+              
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                <img src="/testimonial_poster.png" alt="Testimonial" className="absolute inset-0 w-full h-full object-cover opacity-60" />
+                <div className="relative text-center">
+                  <PlayCircle className="w-20 h-20 text-primary mx-auto mb-4 bg-white/90 rounded-full p-2 shadow-xl cursor-pointer hover:scale-110 transition-transform" />
+                  <p className="text-xl md:text-2xl font-bold font-jakarta text-text bg-white/90 px-6 py-3 rounded-full backdrop-blur-md shadow-lg">
+                    "My child hasn't stopped talking about the robot they built!"
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

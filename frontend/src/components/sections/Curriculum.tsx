@@ -38,19 +38,29 @@ const Curriculum = () => {
             </p>
 
             <div className="space-y-6">
-              {weeks.map((week, index) => (
-                <div key={index} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                  <h3 className="text-xl font-jakarta font-bold mb-4 text-primary">{week.title}</h3>
-                  <div className="flex flex-wrap gap-3">
-                    {week.skills.map((skill, i) => (
-                      <div key={i} className="flex items-center gap-2 text-sm text-text/80 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
-                        <CheckCircle2 className="w-4 h-4 text-success" />
-                        {skill}
-                      </div>
-                    ))}
+              {weeks.map((week, index) => {
+                const colors = [
+                  "text-primary bg-primary/10 border-primary/20",
+                  "text-secondary bg-secondary/10 border-secondary/20",
+                  "text-accent bg-accent/10 border-accent/20",
+                  "text-yellow-accent bg-yellow-accent/10 border-yellow-accent/20"
+                ];
+                const color = colors[index % colors.length];
+
+                return (
+                  <div key={index} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all hover:-translate-y-1">
+                    <h3 className={`text-xl font-jakarta font-bold mb-4 ${color.split(' ')[0]}`}>{week.title}</h3>
+                    <div className="flex flex-wrap gap-3">
+                      {week.skills.map((skill, i) => (
+                        <div key={i} className={`flex items-center gap-2 text-sm font-semibold px-3 py-1.5 rounded-lg border ${color}`}>
+                          <CheckCircle2 className="w-4 h-4" />
+                          {skill}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </motion.div>
 
@@ -60,10 +70,10 @@ const Curriculum = () => {
             viewport={{ once: true }}
             className="order-1 lg:order-2 relative"
           >
-            <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full translate-x-10 translate-y-10" />
+            <div className="absolute inset-0 bg-secondary/20 blur-3xl rounded-full translate-x-10 translate-y-10" />
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/3] lg:aspect-square">
               <img 
-                src="/curriculum_kids_coding.png" 
+                src="/curriculum_coding.png" 
                 alt="Children coding together" 
                 className="w-full h-full object-cover"
               />

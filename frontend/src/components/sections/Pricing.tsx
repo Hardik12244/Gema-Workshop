@@ -46,9 +46,9 @@ const Pricing = () => {
               ))}
             </ul>
 
-            <button className="w-full magnetic-button bg-text text-white py-4 rounded-full font-bold text-lg hover:bg-black transition-colors">
+            <a href="/register" className="w-full magnetic-button block text-center bg-text text-white py-4 rounded-full font-bold text-lg hover:bg-black transition-colors">
               Enroll Now
-            </button>
+            </a>
           </motion.div>
         </div>
       </div>

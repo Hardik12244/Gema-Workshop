@@ -4,8 +4,10 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import About from './pages/About';
 import Blog from './pages/Blog';
+import Events from './pages/Events';
 import Contact from './pages/Contact';
 import Legal from './pages/Legal';
+import Register from './pages/Register';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import UserSync from './components/layout/UserSync';
@@ -25,6 +27,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/blog" element={<Blog />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/register" element={<Register />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/legal" element={<Legal />} />
               <Route path="/dashboard" element={<Dashboard />} />

@@ -19,7 +19,7 @@ const LearningJourney = () => {
   ];
 
   return (
-    <section className="py-24 bg-white" id="curriculum" ref={containerRef}>
+    <section className="py-24 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50" id="curriculum" ref={containerRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl mb-6">The Learning Journey</h2>

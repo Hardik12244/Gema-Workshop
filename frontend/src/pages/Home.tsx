@@ -12,7 +12,6 @@ import Testimonials from '../components/sections/Testimonials';
 import ParentBenefits from '../components/sections/ParentBenefits';
 import Pricing from '../components/sections/Pricing';
 import FAQ from '../components/sections/FAQ';
-import RegistrationForm from '../components/sections/RegistrationForm';
 
 const Home = () => {
   return (
@@ -31,7 +30,6 @@ const Home = () => {
       <ParentBenefits />
       <Pricing />
       <FAQ />
-      <RegistrationForm />
     </div>
   );
 };

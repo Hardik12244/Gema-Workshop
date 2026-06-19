@@ -44,7 +44,11 @@ const RegistrationForm = () => {
       });
       
       if (response.ok) {
+        const data = await response.json();
         setIsSuccess(true);
+        if (data.checkoutUrl) {
+          window.location.href = data.checkoutUrl;
+        }
       } else {
         // Handle error visually if needed
         console.error("Failed to register");
