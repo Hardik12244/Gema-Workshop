@@ -59,12 +59,18 @@ const HeroSection = () => {
             </motion.p>
             
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 mb-10">
-              <button className="magnetic-button bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-full font-bold text-lg flex items-center justify-center gap-2 shadow-lg shadow-primary/30">
+              <a 
+                href="#pricing"
+                className="magnetic-button bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-full font-bold text-lg flex items-center justify-center gap-2 shadow-lg shadow-primary/30"
+              >
                 Claim Your Spot <ArrowRight className="w-5 h-5" />
-              </button>
-              <button className="magnetic-button bg-white hover:bg-gray-50 text-text border border-gray-200 px-8 py-4 rounded-full font-bold text-lg flex items-center justify-center gap-2 shadow-sm">
+              </a>
+              <a 
+                href="#projects"
+                className="magnetic-button bg-white hover:bg-gray-50 text-text px-8 py-4 rounded-full font-bold text-lg flex items-center justify-center gap-2 shadow-lg shadow-gray-200/50"
+              >
                 <PlayCircle className="w-5 h-5 text-primary" /> Watch Video
-              </button>
+              </a>
             </motion.div>
             
             <motion.div variants={itemVariants} className="flex items-center gap-6 text-sm font-medium text-text/60">

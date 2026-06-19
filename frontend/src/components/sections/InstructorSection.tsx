@@ -68,9 +68,9 @@ const InstructorSection = () => {
               <p className="text-primary font-medium mb-4">{instructor.role}</p>
               <p className="text-text/70 mb-6">{instructor.bio}</p>
               <div className="flex justify-center space-x-4">
-                <a href="#" className="text-text/40 hover:text-primary transition-colors"><Globe className="w-5 h-5" /></a>
-                <a href="#" className="text-text/40 hover:text-text transition-colors"><Mail className="w-5 h-5" /></a>
-                <a href="#" className="text-text/40 hover:text-secondary transition-colors"><Link2 className="w-5 h-5" /></a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-text/40 hover:text-primary transition-colors"><Globe className="w-5 h-5" /></a>
+                <a href="mailto:contact@robominds.edu" className="text-text/40 hover:text-text transition-colors"><Mail className="w-5 h-5" /></a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-text/40 hover:text-secondary transition-colors"><Link2 className="w-5 h-5" /></a>
               </div>
             </motion.div>
           ))}

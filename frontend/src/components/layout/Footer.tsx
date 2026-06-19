@@ -19,10 +19,15 @@ const Footer = () => {
               Empowering the next generation of innovators with hands-on AI and robotics education that sparks creativity and builds future-proof skills.
             </p>
             <div className="flex items-center space-x-4">
-              {[LinkIcon, MessageCircle, Image, Video].map((Icon, i) => (
-                <a key={i} href="#" className="bg-white/5 p-2 rounded-full hover:bg-primary hover:text-white transition-all">
+              {[
+                { Icon: LinkIcon, url: '/contact' },
+                { Icon: MessageCircle, url: '/contact' },
+                { Icon: Image, url: '/blog' },
+                { Icon: Video, url: '/#projects' }
+              ].map(({ Icon, url }, i) => (
+                <Link key={i} to={url} className="bg-white/5 p-2 rounded-full hover:bg-primary hover:text-white transition-all">
                   <Icon className="w-5 h-5" />
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -32,7 +37,7 @@ const Footer = () => {
             <ul className="space-y-4">
               {['Home', 'Curriculum', 'Projects', 'Instructors', 'Pricing'].map((item) => (
                 <li key={item}>
-                  <a href={`#${item.toLowerCase()}`} className="hover:text-primary transition-colors">
+                  <a href={item === 'Home' ? '/' : `/#${item.toLowerCase()}`} className="hover:text-primary transition-colors">
                     {item}
                   </a>
                 </li>
@@ -45,9 +50,9 @@ const Footer = () => {
             <ul className="space-y-4">
               {['Terms of Service', 'Privacy Policy', 'Cookie Policy', 'Refund Policy'].map((item) => (
                 <li key={item}>
-                  <a href="#" className="hover:text-primary transition-colors">
+                  <Link to="/legal" className="hover:text-primary transition-colors">
                     {item}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

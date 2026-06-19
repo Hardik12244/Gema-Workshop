@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { TrendingUp, Globe2, Lightbulb, Target } from 'lucide-react';
+import { TrendingUp, Globe2, Lightbulb, Target, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const WhyLearnAIToday = () => {
   const stats = [
@@ -41,9 +42,13 @@ const WhyLearnAIToday = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              <button className="magnetic-button bg-white text-text hover:bg-gray-100 px-8 py-4 rounded-full font-bold text-lg">
+              <Link 
+                to="/blog"
+                className="inline-flex items-center gap-2 text-primary font-bold hover:text-primary/80 transition-colors group"
+              >
                 Read our Research
-              </button>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </motion.div>
           </div>
 

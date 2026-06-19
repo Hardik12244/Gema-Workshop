@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAuth, SignInButton } from '@clerk/clerk-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -17,6 +18,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const RegistrationForm = () => {
+  const { getToken, isSignedIn } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -28,11 +30,16 @@ const RegistrationForm = () => {
   });
 
   const onSubmit = async (data: FormValues) => {
+    if (!isSignedIn) return;
     setIsSubmitting(true);
     try {
-      const response = await fetch('http://localhost:5000/api/registrations', {
+      const token = await getToken();
+      const response = await fetch('http://localhost:5001/api/registrations', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(data)
       });
       
@@ -150,13 +157,24 @@ const RegistrationForm = () => {
                 </div>
               </div>
 
-              <button 
-                type="submit" 
-                disabled={isSubmitting}
-                className="w-full magnetic-button bg-primary hover:bg-primary/90 text-white py-4 rounded-xl font-bold text-lg flex justify-center items-center gap-2 mt-4 shadow-lg shadow-primary/30 disabled:opacity-70"
-              >
-                {isSubmitting ? <Loader2 className="w-6 h-6 animate-spin" /> : 'Complete Registration'}
-              </button>
+              {isSignedIn ? (
+                <button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="w-full magnetic-button bg-primary hover:bg-primary/90 text-white py-4 rounded-xl font-bold text-lg flex justify-center items-center gap-2 mt-4 shadow-lg shadow-primary/30 disabled:opacity-70"
+                >
+                  {isSubmitting ? <Loader2 className="w-6 h-6 animate-spin" /> : 'Complete Registration'}
+                </button>
+              ) : (
+                <SignInButton mode="modal">
+                  <button 
+                    type="button" 
+                    className="w-full magnetic-button bg-primary hover:bg-primary/90 text-white py-4 rounded-xl font-bold text-lg flex justify-center items-center gap-2 mt-4 shadow-lg shadow-primary/30"
+                  >
+                    Sign in to Secure Your Spot
+                  </button>
+                </SignInButton>
+              )}
             </form>
           </div>
         )}

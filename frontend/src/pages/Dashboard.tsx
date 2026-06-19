@@ -16,7 +16,7 @@ const Dashboard = () => {
           const email = user?.primaryEmailAddress?.emailAddress;
           if (!email) return;
 
-          const res = await fetch(`http://localhost:5000/api/registrations/my-registrations?email=${email}`, {
+          const res = await fetch(`http://localhost:5001/api/registrations/my-registrations?email=${email}`, {
             headers: {
               Authorization: `Bearer ${token}`
             }
