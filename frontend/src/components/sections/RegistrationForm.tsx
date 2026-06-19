@@ -37,7 +37,7 @@ const RegistrationForm = () => {
     try {
       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
       // Submit registration directly
-      const response = await fetch(`${API_URL}/api/registrations`, {
+      const response = await fetch(`${API_URL}api/registrations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
