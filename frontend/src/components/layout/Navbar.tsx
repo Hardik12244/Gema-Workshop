@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { SignedIn, SignedOut, UserButton, SignInButton } from '@clerk/clerk-react';
 import { Bot, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -46,24 +45,12 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <SignedOut>
-              <SignInButton mode="modal">
-                <button className="text-text hover:text-primary font-medium px-4 py-2 transition-colors">
-                  Log in
-                </button>
-              </SignInButton>
-              <SignInButton mode="modal">
-                <button className="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-full font-medium transition-all magnetic-button shadow-primary/25">
-                  Sign up
-                </button>
-              </SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <Link to="/dashboard" className="text-text/70 hover:text-primary font-medium mr-4 transition-colors">
-                Dashboard
-              </Link>
-              <UserButton afterSignOutUrl="/" />
-            </SignedIn>
+            <Link to="/dashboard" className="text-text/70 hover:text-primary font-medium px-4 py-2 transition-colors">
+              Dashboard
+            </Link>
+            <Link to="/register" className="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-full font-medium transition-all magnetic-button shadow-primary/25">
+              Register Now
+            </Link>
           </div>
 
           <div className="md:hidden flex items-center">
@@ -95,27 +82,20 @@ const Navbar = () => {
                 </a>
               ))}
               <div className="pt-4 flex flex-col space-y-3">
-                <SignedOut>
-                  <SignInButton mode="modal">
-                    <button className="w-full text-center bg-gray-50 text-text font-medium px-4 py-2.5 rounded-xl border border-gray-200">
-                      Log in
-                    </button>
-                  </SignInButton>
-                  <SignInButton mode="modal">
-                    <button className="w-full text-center bg-primary text-white px-4 py-2.5 rounded-xl font-medium shadow-md shadow-primary/20">
-                      Sign up
-                    </button>
-                  </SignInButton>
-                </SignedOut>
-                <SignedIn>
-                  <Link
-                    to="/dashboard"
-                    onClick={() => setIsOpen(false)}
-                    className="block px-3 py-2 text-base font-medium text-text/70 hover:text-primary"
-                  >
-                    Dashboard
-                  </Link>
-                </SignedIn>
+                <Link
+                  to="/dashboard"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full text-center bg-gray-50 text-text font-medium px-4 py-2.5 rounded-xl border border-gray-200 hover:bg-gray-100"
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full text-center bg-primary text-white px-4 py-2.5 rounded-xl font-medium shadow-md shadow-primary/20 hover:bg-primary/90"
+                >
+                  Register Now
+                </Link>
               </div>
             </div>
           </motion.div>

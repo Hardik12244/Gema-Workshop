@@ -1,29 +1,27 @@
-import { useUser, useAuth } from '@clerk/clerk-react';
+
 import { useEffect, useState } from 'react';
 import { BookOpen, Calendar, Settings } from 'lucide-react';
 import BackgroundSystem from '../components/layout/BackgroundSystem';
 
 const Dashboard = () => {
-  const { isLoaded, isSignedIn, user } = useUser();
-  const { getToken } = useAuth();
   const [registrations, setRegistrations] = useState([]);
+  const [email, setEmail] = useState<string | null>(null);
+  const [name, setName] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchRegistrations = async () => {
-      if (isSignedIn) {
-        try {
-          const token = await getToken();
-          const email = user?.primaryEmailAddress?.emailAddress;
-          if (!email) return;
+    const demoEmail = localStorage.getItem('demo_email');
+    const demoName = localStorage.getItem('demo_name');
+    
+    if (demoEmail) setEmail(demoEmail);
+    if (demoName) setName(demoName);
 
-          const res = await fetch(`http://localhost:5001/api/registrations/my-registrations?email=${email}`, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
+    const fetchRegistrations = async () => {
+      if (demoEmail) {
+        try {
+          const res = await fetch(`http://localhost:5001/api/registrations/my-registrations?email=${demoEmail}`);
           if (res.ok) {
-            const data = await res.json();
-            setRegistrations(data);
+            const result = await res.json();
+            if (result.success) setRegistrations(result.data);
           }
         } catch (error) {
           console.error("Failed to fetch registrations", error);
@@ -31,17 +29,23 @@ const Dashboard = () => {
       }
     };
     fetchRegistrations();
-  }, [isSignedIn, user, getToken]);
+  }, []);
 
-  if (!isLoaded || !isSignedIn) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  if (!email) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+        <h2 className="text-2xl font-bold font-jakarta mb-4">No active session found</h2>
+        <p className="text-text/60 mb-6">Please register a student to access the dashboard.</p>
+        <a href="/register" className="bg-primary text-white px-6 py-3 rounded-full font-bold shadow-lg hover:-translate-y-1 transition-all">Go to Registration</a>
+      </div>
+    );
   }
 
   return (
     <div className="min-h-screen relative py-20">
       <BackgroundSystem />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <h1 className="text-4xl font-jakarta font-bold mb-2">Welcome back, {user.firstName}!</h1>
+        <h1 className="text-4xl font-jakarta font-bold mb-2">Welcome back, {name || 'Parent'}!</h1>
         <p className="text-text/60 mb-10">Manage your child's learning journey.</p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -96,7 +100,7 @@ const Dashboard = () => {
               <h2 className="text-xl font-jakarta font-bold mb-4 flex items-center gap-2">
                 <Settings className="w-5 h-5 text-secondary" /> Account
               </h2>
-              <p className="text-sm text-text/70 mb-2">Email: {user.primaryEmailAddress?.emailAddress}</p>
+              <p className="text-sm text-text/70 mb-2">Email: {email}</p>
               <button className="text-sm text-primary font-bold hover:underline">Manage Account</button>
             </div>
           </div>

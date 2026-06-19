@@ -4,43 +4,53 @@ import { Clock, BarChart, Code2, PlayCircle } from 'lucide-react';
 const ProjectShowcase = () => {
   const projects = [
     {
-      title: "AI Voice Assistant Bot",
-      subtitle: "Hardware meets Large Language Models.",
+      title: "Line Following Robot",
+      subtitle: "Autonomous navigation using infrared sensors.",
       image: "/projects_robotics_kits.png",
-      difficulty: "Advanced",
-      buildTime: "12 Hours",
-      skills: ["Python", "OpenAI API", "Audio Processing", "IoT"],
+      difficulty: "Beginner",
+      buildTime: "4 Hours",
+      skills: ["C++", "Sensors", "Motor Logic"],
       span: "md:col-span-2",
       theme: "dark"
     },
     {
-      title: "Gesture Control Robot",
-      subtitle: "Control robots with hand movements.",
+      title: "Voice Controlled Robot",
+      subtitle: "Navigate via speech recognition.",
       image: "/curriculum_coding.png",
       difficulty: "Intermediate",
       buildTime: "8 Hours",
-      skills: ["Computer Vision", "Motor Logic"],
+      skills: ["Python", "Audio Processing", "IoT"],
       span: "md:col-span-1",
       theme: "light"
     },
     {
-      title: "Weather Intelligence",
-      subtitle: "Smart dashboard with live environmental data.",
+      title: "Obstacle Avoidance Robot",
+      subtitle: "Smart ultrasonic pathfinding.",
       image: "/curriculum_robotics.png",
-      difficulty: "Beginner",
-      buildTime: "5 Hours",
-      skills: ["API Fetching", "React UI", "Sensors"],
+      difficulty: "Intermediate",
+      buildTime: "6 Hours",
+      skills: ["C++", "Ultrasonic", "Logic Gates"],
       span: "md:col-span-1",
       theme: "light"
     },
     {
-      title: "Obstacle Avoidance Rover",
-      subtitle: "Autonomous maze navigation.",
+      title: "AI Assistant",
+      subtitle: "Hardware meets Large Language Models.",
       image: "/hero_new.png",
+      difficulty: "Advanced",
+      buildTime: "12 Hours",
+      skills: ["Python", "OpenAI API", "React UI"],
+      span: "md:col-span-2",
+      theme: "dark"
+    },
+    {
+      title: "Smart Home Project",
+      subtitle: "Automate environmental controls.",
+      image: "/gallery_happy_students.png",
       difficulty: "Intermediate",
       buildTime: "10 Hours",
-      skills: ["Ultrasonic Sensors", "Pathfinding", "C++"],
-      span: "md:col-span-2",
+      skills: ["IoT", "WebSockets", "Electronics"],
+      span: "md:col-span-3",
       theme: "dark"
     }
   ];

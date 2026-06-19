@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth, SignInButton } from '@clerk/clerk-react';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -18,35 +18,35 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const RegistrationForm = () => {
-  const { getToken, isSignedIn } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
+  const { register, handleSubmit, formState } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    mode: 'onChange',
     defaultValues: {
       workshopId: 'summer-2026'
     }
   });
 
+  const { errors, isValid } = formState;
+
   const onSubmit = async (data: FormValues) => {
-    if (!isSignedIn) return;
     setIsSubmitting(true);
     
     try {
-      const token = await getToken();
-
       // Submit registration directly
       const response = await fetch('http://localhost:5001/api/registrations', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
       });
 
       if (response.ok) {
+        localStorage.setItem('demo_email', data.email);
+        localStorage.setItem('demo_name', data.parentName);
         setIsSuccess(true);
       } else {
         console.error("Registration failed");
@@ -211,24 +211,13 @@ const RegistrationForm = () => {
                 </div>
 
                 <div className="pt-4 mt-2 border-t border-gray-100">
-                  {isSignedIn ? (
-                    <button 
-                      type="submit" 
-                      disabled={isSubmitting}
-                      className="w-full bg-gray-900 hover:bg-black text-white py-4 rounded-2xl font-bold text-lg flex justify-center items-center gap-2 shadow-xl shadow-gray-900/20 disabled:opacity-70 transition-all hover:-translate-y-1"
-                    >
-                      {isSubmitting ? <Loader2 className="w-6 h-6 animate-spin" /> : 'Pay ₹2,999 Securely'}
-                    </button>
-                  ) : (
-                    <SignInButton mode="modal">
-                      <button 
-                        type="button" 
-                        className="w-full bg-primary hover:bg-primary-dark text-white py-4 rounded-2xl font-bold text-lg flex justify-center items-center gap-2 shadow-xl shadow-primary/30 transition-all hover:-translate-y-1"
-                      >
-                        Sign in to Secure Your Spot
-                      </button>
-                    </SignInButton>
-                  )}
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting || !formState.isValid}
+                    className="w-full bg-gray-900 hover:bg-black text-white py-4 rounded-2xl font-bold text-lg flex justify-center items-center gap-2 shadow-xl shadow-gray-900/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:-translate-y-1"
+                  >
+                    {isSubmitting ? <Loader2 className="w-6 h-6 animate-spin" /> : 'Register & Pay ₹2,999'}
+                  </button>
                   <p className="text-center text-xs text-gray-400 font-medium mt-4 flex items-center justify-center gap-1">
                     Payments are securely simulated for this demo.
                   </p>

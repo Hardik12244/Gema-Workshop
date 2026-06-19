@@ -2,11 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import { ClerkExpressWithAuth } from '@clerk/clerk-sdk-node';
+import { errorHandler } from './middleware/errorHandler';
 
 import registrationRoutes from './routes/registrations';
 import enquiryRoutes from './routes/enquiries';
-import userRoutes from './routes/users';
 
 dotenv.config();
 
@@ -19,8 +18,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/registrations', registrationRoutes);
-app.use('/api/enquiries', enquiryRoutes);
-app.use('/api/users', userRoutes);
+app.use('/api/enquiry', enquiryRoutes);
 
 // Basic health check
 app.get('/api/health', (req, res) => {
@@ -41,3 +39,6 @@ mongoose
   .catch((err) => {
     console.error('Failed to connect to MongoDB', err);
   });
+
+// Global Error Handler
+app.use(errorHandler);

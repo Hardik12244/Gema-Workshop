@@ -1,180 +1,49 @@
-# AI & Robotics Summer Workshop
+# RoboMinds Workshop Experience
 
-A full-stack workshop platform built using React, TypeScript, Express, and MongoDB.
+A premium, high-conversion workshop landing page and registration system designed to maximize engagement and demonstrate engineering rigor.
 
-The goal of this project was to create a modern workshop experience where parents can explore a workshop, understand the curriculum, and register their child through a responsive and intuitive interface.
+## Architecture & Technical Decisions
 
-This project was developed as part of an internship assignment and focuses on clean architecture, user experience, responsiveness, and maintainable code rather than simply implementing the required features.
+The architecture follows a strict separation of concerns, decoupling the presentation layer from the persistence layer to ensure scalability and maintainability.
 
----
+### Frontend 
+- **React + Vite + TypeScript**: Chosen for rapid hot-module replacement and strict type safety across components.
+- **Framer Motion**: Utilized extensively for scroll-linked animations, micro-interactions, and premium layout transitions to create a "Kidrove-inspired" aesthetic without sacrificing performance.
+- **Tailwind CSS**: For utility-first styling. Custom design tokens (fonts, colors, border radii) are injected into the Tailwind config to enforce a consistent design system.
+- **React Hook Form + Zod**: The optimal combination for accessible, performant, and strictly typed form validation. Validation schemas are defined securely and mirror backend requirements.
 
-## Demo
+### Backend 
+- **Express + TypeScript**: Provides a lightweight but robust RESTful API.
+- **Mongoose / MongoDB**: Selected for flexible schema design, allowing rapid iteration on registration and enquiry models.
+- **Centralized Validation Middleware**: Implemented a global Zod validation layer (`middleware/validate.ts`) that guarantees runtime type-safety for incoming payloads before they hit the controllers.
+- **Global Error Handling**: Uncaught exceptions and validation failures are funnelled through a global error handler (`middleware/errorHandler.ts`), guaranteeing standard `{ success, message, errors }` responses across the API.
 
-Frontend: [Live Link]
+## Trade-offs and Simplifications
 
-Backend API: [API Link]
+During the implementation phase, several architectural simplifications were made to prioritize the core assignment requirements:
 
----
-
-## Features
-
-### Frontend
-
-* Responsive workshop detail page
-* Modern UI inspired by educational platforms
-* Interactive curriculum timeline
-* Learning outcomes section
-* FAQ accordion
-* Parent testimonials
-* Registration form
-* Framer Motion animations
-* Form validation using React Hook Form and Zod
-
-### Backend
-
-* Express.js REST API
-* MongoDB integration
-* Registration storage
-* Request validation
-* Error handling middleware
-
----
-
-## Tech Stack
-
-### Frontend
-
-* React
-* TypeScript
-* Tailwind CSS
-* Framer Motion
-* React Hook Form
-* Zod
-
-### Backend
-
-* Node.js
-* Express.js
-* MongoDB Atlas
-* Mongoose
-
----
-
-## Project Structure
-
-```text
-frontend/
-│
-├── src/
-│   ├── components/
-│   ├── sections/
-│   ├── pages/
-│   ├── hooks/
-│   ├── services/
-│   ├── types/
-│   └── utils/
-
-backend/
-│
-├── src/
-│   ├── controllers/
-│   ├── routes/
-│   ├── middleware/
-│   ├── models/
-│   └── config/
-```
-
----
-
-## API
-
-### Create Registration
-
-```http
-POST /api/enquiry
-```
-
-Request:
-
-```json
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "phone": "9876543210"
-}
-```
-
-Response:
-
-```json
-{
-  "success": true,
-  "message": "Enquiry submitted successfully"
-}
-```
-
----
+1. **Authentication Removal**: The original implementation included Clerk Authentication. This was aggressively removed to reduce friction in the registration funnel. A landing page's primary goal is conversion; forcing auth prior to capturing lead data is a known anti-pattern.
+2. **Simulated Payments**: To maintain a pure engineering focus on layout, UI/UX, and data flow, third-party payment gateway logic (Razorpay/Stripe) was stripped out. The system cleanly simulates a transaction and successfully persists the record to MongoDB.
 
 ## Running Locally
 
-### Frontend
+Requirements: `Node.js >= 18`, `MongoDB`
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-### Backend
-
+**Backend:**
 ```bash
 cd backend
 npm install
 npm run dev
 ```
 
----
-
-## Environment Variables
-
-```env
-PORT=5000
-MONGODB_URI=your_mongodb_connection_string
-CLIENT_URL=http://localhost:5173
+**Frontend:**
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
----
-
-## Design Decisions
-
-The assignment requirements could be completed with a simple landing page and form. Instead, I approached it as a workshop discovery experience.
-
-A few decisions I made:
-
-* Separated UI into reusable sections rather than creating a single large page component.
-* Used TypeScript across the project for type safety.
-* Added schema validation on both client and server sides.
-* Structured the backend for future scalability.
-* Focused on mobile responsiveness from the beginning.
-* Used Framer Motion sparingly to improve the experience without affecting performance.
-
----
-
-## What I Would Improve Given More Time
-
-If this were developed further, I would add:
-
-* Admin dashboard for registrations
-* Email confirmations
-* Workshop analytics
-* Registration export functionality
-* Authentication and role management
-* Workshop management system
-
----
-
-## Notes
-
-The project intentionally prioritizes maintainability, responsiveness, and user experience over adding unnecessary complexity.
-
-While the assignment only required a workshop page and enquiry endpoint, the architecture was designed so that additional workshops and future features could be added with minimal changes.
+## Future Improvements
+- **Rate Limiting & DDoS Protection**: Add `express-rate-limit` to the `/api/enquiry` and `/api/registrations` endpoints to prevent automated spam.
+- **E2E Testing**: Introduce Playwright for critical path testing (verifying the registration funnel from landing page to dashboard).
+- **Edge Caching**: Deploy the frontend via Vercel Edge Network for near-zero latency delivery of static assets.

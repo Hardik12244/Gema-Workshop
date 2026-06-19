@@ -22,7 +22,7 @@ const Curriculum = () => {
       deliverables: ["Train a mini neural net", "Build a smart chatbot", "AI ethics & safety"]
     },
     {
-      title: "Week 2: Robotics Basics",
+      title: "Week 2: Robotics Fundamentals",
       description: "Physical meets digital. Students assemble their first robot chassis and wire up the basic power systems.",
       icon: <Bot className="w-8 h-8" />,
       color: "from-secondary to-secondary-dark",
@@ -40,7 +40,7 @@ const Curriculum = () => {
       deliverables: ["Ultrasonic distance coding", "Line following logic", "Autonomous navigation"]
     },
     {
-      title: "Week 4: Final Project",
+      title: "Week 4: Capstone Project",
       description: "Bringing it all together. Students integrate the AI brain with the robotic body for their final showcase.",
       icon: <Rocket className="w-8 h-8" />,
       color: "from-yellow-accent to-orange-400",

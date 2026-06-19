@@ -9,7 +9,7 @@ import { MapPin, Phone, Mail, Clock, Send, CheckCircle2, Loader2 } from 'lucide-
 const contactSchema = z.object({
   name: z.string().min(2, 'Name is required'),
   email: z.string().email('Invalid email address'),
-  subject: z.string().min(1, 'Please select a subject'),
+  phone: z.string().min(10, 'Valid phone number is required'),
   message: z.string().min(10, 'Message must be at least 10 characters')
 });
 
@@ -19,14 +19,15 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema)
+  const { register, handleSubmit, formState: { errors, isValid }, reset } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    mode: 'onChange'
   });
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
     try {
-      const response = await fetch('http://localhost:5001/api/enquiries', {
+      const response = await fetch('http://localhost:5001/api/enquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -172,18 +173,13 @@ const Contact = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-semibold text-text/80">Subject *</label>
-                  <select 
-                    {...register('subject')}
-                    className={`w-full px-4 py-3 rounded-xl border bg-white/50 focus:bg-white transition-all outline-none focus:ring-2 ${errors.subject ? 'border-red-400 focus:ring-red-400/20' : 'border-gray-200 focus:border-primary focus:ring-primary/20'}`}
-                  >
-                    <option value="">Please select a subject</option>
-                    <option value="General Inquiry">General Inquiry</option>
-                    <option value="Partnership">Partnership</option>
-                    <option value="Support">Support</option>
-                    <option value="Feedback">Feedback</option>
-                  </select>
-                  {errors.subject && <p className="text-red-500 text-sm">{errors.subject.message}</p>}
+                  <label className="text-sm font-semibold text-text/80">Phone Number *</label>
+                  <input 
+                    {...register('phone')}
+                    className={`w-full px-4 py-3 rounded-xl border bg-white/50 focus:bg-white transition-all outline-none focus:ring-2 ${errors.phone ? 'border-red-400 focus:ring-red-400/20' : 'border-gray-200 focus:border-primary focus:ring-primary/20'}`}
+                    placeholder="(555) 123-4567"
+                  />
+                  {errors.phone && <p className="text-red-500 text-sm">{errors.phone.message}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -200,8 +196,8 @@ const Contact = () => {
                 <div className="flex justify-end pt-4">
                   <button 
                     type="submit"
-                    disabled={isSubmitting}
-                    className="magnetic-button bg-primary hover:bg-primary/90 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg shadow-primary/30"
+                    disabled={isSubmitting || !isValid}
+                    className="magnetic-button bg-primary hover:bg-primary/90 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/30 transition-all"
                   >
                     {isSubmitting ? (
                       <><Loader2 className="w-5 h-5 animate-spin" /> Sending...</>
