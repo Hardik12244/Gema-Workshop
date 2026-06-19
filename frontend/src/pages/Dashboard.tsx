@@ -18,7 +18,8 @@ const Dashboard = () => {
     const fetchRegistrations = async () => {
       if (demoEmail) {
         try {
-          const res = await fetch(`http://localhost:5001/api/registrations/my-registrations?email=${demoEmail}`);
+          const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+          const res = await fetch(`${API_URL}/api/registrations/my-registrations?email=${demoEmail}`);
           if (res.ok) {
             const result = await res.json();
             if (result.success) setRegistrations(result.data);

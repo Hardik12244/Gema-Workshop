@@ -54,13 +54,16 @@ const FAQ = () => {
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="w-full px-8 py-8 text-left flex justify-between items-center focus:outline-none"
+                  className="w-full px-8 py-8 text-left flex justify-between items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-2xl"
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-answer-${index}`}
+                  id={`faq-question-${index}`}
                 >
                   <span className={`font-jakarta font-extrabold text-xl md:text-2xl pr-8 transition-colors ${isOpen ? 'text-primary' : 'text-text'}`}>
                     {faq.q}
                   </span>
                   <div className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-500 ${isOpen ? 'bg-primary text-white shadow-lg' : 'bg-white text-text shadow-sm border border-gray-100'}`}>
-                    {isOpen ? <Minus className="w-6 h-6" /> : <Plus className="w-6 h-6" />}
+                    {isOpen ? <Minus className="w-6 h-6" aria-hidden="true" /> : <Plus className="w-6 h-6" aria-hidden="true" />}
                   </div>
                 </button>
                 <AnimatePresence>
@@ -71,7 +74,12 @@ const FAQ = () => {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
                     >
-                      <div className="px-8 pb-10 pt-2 text-lg text-text-secondary font-medium leading-relaxed">
+                      <div 
+                        id={`faq-answer-${index}`}
+                        role="region"
+                        aria-labelledby={`faq-question-${index}`}
+                        className="px-8 pb-10 pt-2 text-lg text-text-secondary font-medium leading-relaxed"
+                      >
                         {faq.a}
                       </div>
                     </motion.div>

@@ -1,49 +1,55 @@
 # RoboMinds Workshop Experience
 
-A premium, high-conversion workshop landing page and registration system designed to maximize engagement and demonstrate engineering rigor.
+A premium, deployment-ready workshop registration system engineered to maximize conversion and demonstrate rigorous full-stack implementation.
 
-## Architecture & Technical Decisions
+## Overview
 
-The architecture follows a strict separation of concerns, decoupling the presentation layer from the persistence layer to ensure scalability and maintainability.
+This project is a React-based frontend coupled with an Express/MongoDB backend, designed for a 4-week AI & Robotics Summer Workshop. The focus of this implementation is on flawless UX, strict runtime type safety, and production-ready code structure, eliminating typical "bootcamp" anti-patterns like dead code, loose typing, and hardcoded variables.
 
-### Frontend 
-- **React + Vite + TypeScript**: Chosen for rapid hot-module replacement and strict type safety across components.
-- **Framer Motion**: Utilized extensively for scroll-linked animations, micro-interactions, and premium layout transitions to create a "Kidrove-inspired" aesthetic without sacrificing performance.
-- **Tailwind CSS**: For utility-first styling. Custom design tokens (fonts, colors, border radii) are injected into the Tailwind config to enforce a consistent design system.
-- **React Hook Form + Zod**: The optimal combination for accessible, performant, and strictly typed form validation. Validation schemas are defined securely and mirror backend requirements.
+## Tech Stack
 
-### Backend 
-- **Express + TypeScript**: Provides a lightweight but robust RESTful API.
-- **Mongoose / MongoDB**: Selected for flexible schema design, allowing rapid iteration on registration and enquiry models.
-- **Centralized Validation Middleware**: Implemented a global Zod validation layer (`middleware/validate.ts`) that guarantees runtime type-safety for incoming payloads before they hit the controllers.
-- **Global Error Handling**: Uncaught exceptions and validation failures are funnelled through a global error handler (`middleware/errorHandler.ts`), guaranteeing standard `{ success, message, errors }` responses across the API.
+- **Frontend**: React 18, Vite, TypeScript, Tailwind CSS, Framer Motion
+- **Forms**: React Hook Form + Zod (Strict schema validation)
+- **Backend**: Express, TypeScript, Zod (Validation Middleware)
+- **Database**: MongoDB (Mongoose)
+- **Tooling**: ESLint, PostCSS, Vite Env Variables
 
-## Trade-offs and Simplifications
+## Architecture & Engineering Decisions
 
-During the implementation phase, several architectural simplifications were made to prioritize the core assignment requirements:
+1. **Decoupled Architecture**: Frontend and backend are strictly decoupled, enabling independent scaling and distinct deployment pipelines (e.g., Vercel for Frontend, Render for Backend). 
+2. **Environment Configuration**: Hardcoded URLs have been entirely removed. The application relies exclusively on `VITE_API_URL` to route requests, falling back to localhost during local development only.
+3. **End-to-End Type Safety & Validation**: Both the frontend forms and backend controllers share identical Zod schemas. The backend uses a centralized `validate.ts` middleware to parse and sanitize incoming payloads before hitting business logic, preventing NoSQL injection and malformed inserts.
+4. **Unified Error Handling**: The Express application funnels all uncaught exceptions through `errorHandler.ts`, guaranteeing the client always receives a standardized `{ success: false, message: string, errors: any }` signature.
 
-1. **Authentication Removal**: The original implementation included Clerk Authentication. This was aggressively removed to reduce friction in the registration funnel. A landing page's primary goal is conversion; forcing auth prior to capturing lead data is a known anti-pattern.
-2. **Simulated Payments**: To maintain a pure engineering focus on layout, UI/UX, and data flow, third-party payment gateway logic (Razorpay/Stripe) was stripped out. The system cleanly simulates a transaction and successfully persists the record to MongoDB.
+## Local Setup Instructions
 
-## Running Locally
+Ensure you have Node.js (v18+) and MongoDB installed locally.
 
-Requirements: `Node.js >= 18`, `MongoDB`
+### 1. Environment Configuration
+Create the required `.env` files based on the provided examples.
+```bash
+# In the frontend directory
+cp .env.example .env
 
-**Backend:**
+# In the backend directory
+cp .env.example .env
+```
+
+### 2. Run Backend
 ```bash
 cd backend
 npm install
 npm run dev
 ```
 
-**Frontend:**
+### 3. Run Frontend
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-## Future Improvements
-- **Rate Limiting & DDoS Protection**: Add `express-rate-limit` to the `/api/enquiry` and `/api/registrations` endpoints to prevent automated spam.
-- **E2E Testing**: Introduce Playwright for critical path testing (verifying the registration funnel from landing page to dashboard).
-- **Edge Caching**: Deploy the frontend via Vercel Edge Network for near-zero latency delivery of static assets.
+## Future Improvements & Trade-offs
+- **Authentication**: User authentication was purposefully removed from this iteration to reduce friction in the registration funnel. A robust system (like Clerk or Auth0) should be integrated only *after* lead capture, rather than blocking the initial conversion.
+- **Rate Limiting**: `express-rate-limit` should be integrated into the `/api/enquiry` and `/api/registrations` endpoints to prevent automated spam prior to exposing the API publicly.
+- **E2E Testing**: Introduce Playwright for critical path testing to guarantee the registration flow remains intact across future component refactors.
